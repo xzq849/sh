@@ -1,5 +1,5 @@
 #!/bin/bash
-sh_v="4.2.4"
+sh_v="4.2.5"
 
 
 gl_hui='\e[37m'
@@ -235,11 +235,12 @@ check_disk_space() {
 
 
 install_dependency() {
-	install wget unzip tar jq grep
-
+	switch_mirror true true
+	check_port
 	check_swap
-	auto_optimize_dns
 	prefer_ipv4
+	auto_optimize_dns
+	install wget unzip tar jq grep
 
 }
 
@@ -1466,8 +1467,8 @@ install_certbot() {
 
 
 install_ssltls() {
-	  docker stop nginx > /dev/null 2>&1
 	  check_port > /dev/null 2>&1
+	  docker stop nginx > /dev/null 2>&1
 	  cd ~
 
 	  local file_path="/etc/letsencrypt/live/$yuming/fullchain.pem"
@@ -1638,7 +1639,8 @@ restart_ldnmp() {
 	  docker exec nginx chown -R nginx:nginx /var/cache/nginx/fastcgi > /dev/null 2>&1
 	  docker exec php chown -R www-data:www-data /var/www/html > /dev/null 2>&1
 	  docker exec php74 chown -R www-data:www-data /var/www/html > /dev/null 2>&1
-	  cd /home/web && docker compose restart nginx php php74
+	  cd /home/web && docker compose restart
+
 
 }
 
@@ -3176,7 +3178,6 @@ root_use
 clear
 echo -e "${gl_huang}LDNMP環境未安裝，開始安裝LDNMP環境...${gl_bai}"
 check_disk_space 3 /home
-check_port
 install_dependency
 install_docker
 install_certbot
@@ -3193,7 +3194,6 @@ root_use
 clear
 echo -e "${gl_huang}nginx未安裝，開始安裝nginx環境...${gl_bai}"
 check_disk_space 1 /home
-check_port
 install_dependency
 install_docker
 install_certbot
@@ -6732,6 +6732,9 @@ linux_info() {
 
 	local timezone=$(current_timezone)
 
+	local tcp_count=$(ss -t | wc -l)
+	local udp_count=$(ss -u | wc -l)
+
 
 	echo ""
 	echo -e "系統信息查詢"
@@ -6747,6 +6750,7 @@ linux_info() {
 	echo -e "${gl_kjlan}-------------"
 	echo -e "${gl_kjlan}CPU佔用:${gl_bai}$cpu_usage_percent%"
 	echo -e "${gl_kjlan}系統負載:${gl_bai}$load"
+	echo -e "${gl_kjlan}TCP|UDP連接數:${gl_bai}$tcp_count|$udp_count"
 	echo -e "${gl_kjlan}物理內存:${gl_bai}$mem_info"
 	echo -e "${gl_kjlan}虛擬內存:${gl_bai}$swap_info"
 	echo -e "${gl_kjlan}硬盤佔用:${gl_bai}$disk_info"
@@ -8029,6 +8033,9 @@ linux_Oracle() {
 }
 
 
+
+
+
 docker_tato() {
 
 	local container_count=$(docker ps -a -q 2>/dev/null | wc -l)
@@ -8853,7 +8860,6 @@ linux_ldnmp() {
 		  echo -e "${gl_huang}正在解壓$filename ...${gl_bai}"
 		  cd /home/ && tar -xzf "$filename"
 
-		  check_port
 		  install_dependency
 		  install_docker
 		  install_certbot
@@ -8989,7 +8995,6 @@ linux_ldnmp() {
 					cd /home/web/
 					docker compose down --rmi all
 
-					check_port
 					install_dependency
 					install_docker
 					install_certbot
@@ -14638,6 +14643,64 @@ echo ""
 
 
 
+games_server_tools() {
+
+	while true; do
+	  clear
+	  echo -e "遊戲開服腳本合集"
+	  echo -e "${gl_kjlan}------------------------"
+	  echo -e "${gl_kjlan}1. ${gl_bai}幻獸帕魯開服腳本"
+	  echo -e "${gl_kjlan}2. ${gl_bai}我的世界開服腳本"
+	  echo -e "${gl_kjlan}------------------------"
+	  echo -e "${gl_kjlan}0. ${gl_bai}返回主菜單"
+	  echo -e "${gl_kjlan}------------------------${gl_bai}"
+	  read -e -p "請輸入你的選擇:" sub_choice
+
+	  case $sub_choice in
+
+		  1) send_stats "幻獸帕魯開服腳本" ; cd ~
+			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/palworld.sh ; chmod +x palworld.sh ; ./palworld.sh
+			 exit
+			 ;;
+		  2) send_stats "我的世界開服腳本" ; cd ~
+			 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/mc.sh ; chmod +x mc.sh ; ./mc.sh
+			 exit
+			 ;;
+
+		  0)
+			kejilion
+			;;
+
+		  *)
+			echo "無效的輸入!"
+			;;
+	  esac
+	  break_end
+
+	done
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 kejilion_update() {
 
@@ -14758,8 +14821,7 @@ echo -e "${gl_kjlan}12.  ${gl_bai}後台工作區"
 echo -e "${gl_kjlan}13.  ${gl_bai}系統工具"
 echo -e "${gl_kjlan}14.  ${gl_bai}服務器集群控制"
 echo -e "${gl_kjlan}15.  ${gl_bai}廣告專欄"
-echo -e "${gl_kjlan}------------------------${gl_bai}"
-echo -e "${gl_kjlan}p.   ${gl_bai}幻獸帕魯開服腳本"
+echo -e "${gl_kjlan}16.  ${gl_bai}遊戲開服腳本合集"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
 echo -e "${gl_kjlan}00.  ${gl_bai}腳本更新"
 echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -14785,10 +14847,7 @@ case $choice in
   13) linux_Settings ;;
   14) linux_cluster ;;
   15) kejilion_Affiliates ;;
-  p) send_stats "幻獸帕魯開服腳本" ; cd ~
-	 curl -sS -O ${gh_proxy}raw.githubusercontent.com/kejilion/sh/main/palworld.sh ; chmod +x palworld.sh ; ./palworld.sh
-	 exit
-	 ;;
+  16) games_server_tools ;;
   00) kejilion_update ;;
   0) clear ; exit ;;
   *) echo "無效的輸入!" ;;
