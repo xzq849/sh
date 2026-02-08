@@ -921,7 +921,7 @@ close_port() {
 		iptables -D INPUT -p tcp --dport $port -j ACCEPT 2>/dev/null
 		iptables -D INPUT -p udp --dport $port -j ACCEPT 2>/dev/null
 
-		# Add shutdown rule
+		# Add a shutdown rule
 		if ! iptables -C INPUT -p tcp --dport $port -j DROP 2>/dev/null; then
 			iptables -I INPUT 1 -p tcp --dport $port -j DROP
 		fi
@@ -3501,7 +3501,7 @@ ldnmp_Proxy_backend_stream() {
 	# Get agent name
 	read -rp "Please enter a proxy forwarding name (e.g. mysql_proxy):" proxy_name
 	if [ -z "$proxy_name" ]; then
-		echo "name cannot be empty"; return 1
+		echo "Name cannot be empty"; return 1
 	fi
 
 	# Get listening port
@@ -4754,7 +4754,7 @@ echo -e "${gl_lv}ROOT login setup is complete!${gl_bai}"
 
 root_use() {
 clear
-[ "$EUID" -ne 0 ] && echo -e "${gl_huang}hint:${gl_bai}This function requires root user to run!" && break_end && kejilion
+[ "$EUID" -ne 0 ] && echo -e "${gl_huang}hint:${gl_bai}This feature requires root user to run!" && break_end && kejilion
 }
 
 
@@ -6447,7 +6447,7 @@ add_task() {
 				password_or_key="$key_file"
 				auth_method="key"
 			else
-				echo "无效的密钥内容！"
+				echo "Invalid key content!"
 				return
 			fi
 			;;
@@ -9420,7 +9420,7 @@ while true; do
 			check_docker_image_update $docker_name
 
 			clear
-			echo -e "postal services$check_docker $update_status"
+			echo -e "postal service$check_docker $update_status"
 			echo "poste.io is an open source mail server solution,"
 			echo "Video introduction: https://www.bilibili.com/video/BV1wv421C71t?t=0.1"
 
@@ -12792,7 +12792,7 @@ linux_work() {
 	  echo -e "${gl_kjlan}2.   ${gl_bai}Work Area 2"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}Work Area 3"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}Work Area 4"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}Workspace No. 5"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}Work Area 5"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}Work Area 6"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}Work Area 7"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}Work Area 8"
@@ -13075,7 +13075,7 @@ linux_Settings() {
 			echo "python version management"
 			echo "Video introduction: https://www.bilibili.com/video/BV1Pm42157cK?t=0.1"
 			echo "---------------------------------------"
-			echo "This function can seamlessly install any version officially supported by python!"
+			echo "This function can seamlessly install any version officially supported by Python!"
 			local VERSION=$(python3 -V 2>&1 | awk '{print $2}')
 			echo -e "Current python version number:${gl_huang}$VERSION${gl_bai}"
 			echo "------------"
