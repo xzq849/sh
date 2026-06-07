@@ -59,7 +59,7 @@ CheckFirstRun_true() {
 
 # 이 기능은 함수에 묻혀있는 정보를 수집하고 사용자가 사용하는 현재 스크립트 버전 번호, 사용 시간, 시스템 버전, CPU 아키텍처, 시스템 국가 및 기능 이름을 기록합니다. 민감한 정보는 포함되어 있지 않으니 걱정하지 마세요! 저를 믿어주세요!
 # 이 기능은 왜 설계되었나요? 그 목적은 사용자가 사용하고 싶어하는 기능을 더 잘 이해하고, 기능을 더욱 최적화하고 사용자 요구에 맞는 더 많은 기능을 출시하는 것입니다.
-# send_stats 함수 호출 위치에 대한 전문을 검색할 수 있습니다. 투명하고 오픈 소스입니다. 우려되는 사항이 있는 경우 이용을 거부하실 수 있습니다.
+# send_stats 함수 호출 위치에 대한 전문을 검색할 수 있습니다. 투명하고 오픈 소스입니다. 불편하신 점이 있으시면 이용을 거부하실 수 있습니다.
 
 
 
@@ -539,22 +539,22 @@ while true; do
 			;;
 		2)
 			send_stats "지정된 컨테이너 시작"
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker start $dockername
 			;;
 		3)
 			send_stats "지정된 컨테이너 중지"
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker stop $dockername
 			;;
 		4)
 			send_stats "지정된 컨테이너 삭제"
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker rm -f $dockername
 			;;
 		5)
 			send_stats "지정된 컨테이너를 다시 시작합니다."
-			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요):" dockername
+			read -e -p "컨테이너 이름을 입력하세요(여러 컨테이너 이름을 공백으로 구분하세요)." dockername
 			docker restart $dockername
 			;;
 		6)
@@ -1130,7 +1130,7 @@ iptables_panel() {
 		  echo "3. 모든 포트를 엽니다. 4. 모든 포트를 닫습니다."
 		  echo "------------------------"
 		  echo "5. IP 화이트리스트 6. IP 블랙리스트"
-		  echo "7. 지정된 IP를 삭제합니다."
+		  echo "7. 지정된 IP 지우기"
 		  echo "------------------------"
 		  echo "11. PING 허용 12. PING 비활성화"
 		  echo "------------------------"
@@ -2702,7 +2702,7 @@ clear_host_port_rules() {
 	install iptables
 
 
-	# 다른 모든 IP의 접근을 차단하는 규칙을 해제하세요.
+	# 다른 모든 IP의 접근을 차단하는 규칙을 삭제하세요.
 	if iptables -C INPUT -p tcp --dport "$port" -j DROP &>/dev/null; then
 		iptables -D INPUT -p tcp --dport "$port" -j DROP
 	fi
@@ -2718,7 +2718,7 @@ clear_host_port_rules() {
 	fi
 
 
-	# 다른 모든 IP의 접근을 차단하는 규칙을 해제하세요.
+	# 다른 모든 IP의 접근을 차단하는 규칙을 삭제하세요.
 	if iptables -C INPUT -p udp --dport "$port" -j DROP &>/dev/null; then
 		iptables -D INPUT -p udp --dport "$port" -j DROP
 	fi
@@ -3238,7 +3238,7 @@ ldnmp_web_on() {
 	  echo "당신의$webname건설되었습니다!"
 	  echo "https://$yuming"
 	  echo "------------------------"
-	  echo "$webname설치 정보는 다음과 같습니다."
+	  echo "$webname설치정보는 다음과 같습니다."
 
 }
 
@@ -3861,7 +3861,7 @@ EOF
 
 	donlond_frp frps
 
-	# 생성된 정보를 출력
+	# 생성된 정보 출력
 	ip_address
 	echo "------------------------"
 	echo "클라이언트 배포에 필요한 매개변수"
@@ -3923,7 +3923,7 @@ remote_port = ${remote_port}
 
 EOF
 
-	# 생성된 정보를 출력
+	# 생성된 정보 출력
 	echo "제공하다$service_namefrpc.toml에 성공적으로 추가되었습니다."
 
 	docker restart frpc
@@ -5300,7 +5300,7 @@ elrepo() {
 		  echo "영상 소개: https://www.bilibili.com/video/BV1mH4y1w7qA?t=529.2"
 		  echo "------------------------------------------------"
 		  echo "Red Hat 시리즈 배포판 CentOS/RedHat/Alma/Rocky/oracle만 지원"
-		  echo "Linux 커널을 업그레이드하면 시스템 성능과 보안이 향상될 수 있습니다. 가능하다면 시도해 보시고, 프로덕션 환경도 주의해서 업그레이드하시는 것을 추천드립니다!"
+		  echo "Linux 커널을 업그레이드하면 시스템 성능과 보안이 향상될 수 있습니다. 가능하다면 시도해 보시고, 프로덕션 환경을 주의해서 업그레이드하시는 것을 추천드립니다!"
 		  echo "------------------------------------------------"
 		  read -e -p "계속하시겠습니까? (예/아니요):" choice
 
@@ -5842,7 +5842,7 @@ linux_trash() {
 
 	clear
 	echo -e "현재 휴지통${trash_status}"
-	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 들어갑니다!"
+	echo -e "활성화한 후에는 중요한 파일이 실수로 삭제되는 것을 방지하기 위해 rm으로 삭제된 파일이 먼저 휴지통에 저장됩니다!"
 	echo "------------------------------------------------"
 	ls -l --color=auto "$TRASH_DIR" 2>/dev/null || echo "휴지통이 비어 있습니다."
 	echo "------------------------"
@@ -6363,7 +6363,7 @@ disk_manager() {
 	send_stats "하드디스크 관리 기능"
 	while true; do
 		clear
-		echo "하드 디스크 파티션 관리"
+		echo "하드 드라이브 파티션 관리"
 		echo -e "${gl_huang}이 기능은 내부 테스트 중이므로 프로덕션 환경에서는 사용하면 안 됩니다.${gl_bai}"
 		echo "------------------------"
 		list_partitions
@@ -7119,7 +7119,7 @@ docker_ssh_migration() {
 
 		echo -e "${YELLOW}Docker 컨테이너 백업 중...${NC}"
 		docker ps --format '{{.Names}}'
-		read -e -p  "백업할 컨테이너의 이름을 입력하십시오(실행 중인 모든 컨테이너를 백업하려면 여러 개의 공백을 구분하고 Enter 키를 누르십시오)." containers
+		read -e -p  "백업할 컨테이너의 이름을 입력하십시오(여러 개의 공백을 구분하고 Enter를 눌러 실행 중인 모든 컨테이너를 백업하십시오)." containers
 
 		install tar jq gzip
 		install_docker
@@ -7142,7 +7142,7 @@ docker_ssh_migration() {
 		echo "set -e" >> "$RESTORE_SCRIPT"
 		echo "# 자동으로 생성된 복원 스크립트" >> "$RESTORE_SCRIPT"
 
-		# 记录已打包过的 Compose 项目路径，避免重复打包
+		# 반복되는 패키징을 피하기 위해 패키징된 Compose 프로젝트 경로를 기록하세요.
 		declare -A PACKED_COMPOSE_PATHS=()
 
 		for c in "${TARGET_CONTAINERS[@]}"; do
@@ -7151,7 +7151,7 @@ docker_ssh_migration() {
 			docker inspect "$c" > "$inspect_file"
 
 			if is_compose_container "$c"; then
-				echo -e "${BLUE}감지됨$c 是 docker-compose 容器${NC}"
+				echo -e "${BLUE}감지됨$c도커 작성 컨테이너입니다${NC}"
 				local project_dir=$(docker inspect "$c" | jq -r '.[0].Config.Labels["com.docker.compose.project.working_dir"] // empty')
 				local project_name=$(docker inspect "$c" | jq -r '.[0].Config.Labels["com.docker.compose.project"] // empty')
 
@@ -7211,7 +7211,7 @@ docker_ssh_migration() {
 
 		# /home/docker 아래의 모든 파일을 백업합니다(하위 디렉터리 제외).
 		if [ -d "/home/docker" ]; then
-			echo -e "${BLUE}备份 /home/docker 下的文件...${NC}"
+			echo -e "${BLUE}/home/docker 아래의 파일을 백업합니다...${NC}"
 			find /home/docker -maxdepth 1 -type f | tar -czf "${BACKUP_DIR}/home_docker_files.tar.gz" -T -
 			echo -e "${GREEN}/home/docker 아래의 파일은 다음과 같이 패키지되었습니다.${BACKUP_DIR}/home_docker_files.tar.gz${NC}"
 		fi
@@ -7232,7 +7232,7 @@ docker_ssh_migration() {
 		read -e -p  "복원할 백업 디렉터리를 입력하십시오:" BACKUP_DIR
 		[[ ! -d "$BACKUP_DIR" ]] && { echo -e "${RED}백업 디렉터리가 존재하지 않습니다.${NC}"; return; }
 
-		echo -e "${BLUE}开始执行还原操作...${NC}"
+		echo -e "${BLUE}복원 작업을 시작하는 중...${NC}"
 
 		install tar jq gzip
 		install_docker
@@ -7310,7 +7310,7 @@ docker_ssh_migration() {
 
 				VOL_FILE="$BACKUP_DIR/${container}_$(basename $VOL_SRC).tar.gz"
 				if [[ -f "$VOL_FILE" ]]; then
-					echo "恢复卷数据: $VOL_SRC"
+					echo "볼륨 데이터 복구:$VOL_SRC"
 					tar -xzf "$VOL_FILE" -C /
 				fi
 			done
@@ -7391,11 +7391,11 @@ docker_ssh_migration() {
 			echo -e ""
 			echo "------------------------"
 			echo -e "1. 도커 프로젝트 백업"
-			echo -e "2. 迁移docker项目"
+			echo -e "2. 도커 프로젝트 마이그레이션"
 			echo -e "3. 도커 프로젝트 복원"
 			echo -e "4. docker 프로젝트 백업 파일 삭제"
 			echo "------------------------"
-			echo -e "0. 返回上一级菜单"
+			echo -e "0. 이전 메뉴로 돌아가기"
 			echo "------------------------"
 			read -e -p  "선택하세요:" choice
 			case $choice in
@@ -7422,7 +7422,7 @@ linux_docker() {
 	while true; do
 	  clear
 	  # send_stats "도커 관리"
-	  echo -e "Docker管理"
+	  echo -e "도커 관리"
 	  docker_tato
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}1.   ${gl_bai}Docker 환경 설치 및 업데이트${gl_huang}★${gl_bai}"
@@ -7430,29 +7430,29 @@ linux_docker() {
 	  echo -e "${gl_kjlan}2.   ${gl_bai}Docker 전역 상태 보기${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}도커 컨테이너 관리${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}도커 이미지 관리"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}Docker网络管理"
+	  echo -e "${gl_kjlan}4.   ${gl_bai}Docker镜像管理"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}도커 네트워크 관리"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}도커 볼륨 관리"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}쓸모없는 도커 컨테이너를 정리하고 네트워크 데이터 볼륨을 미러링하세요."
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}Docker 소스 변경"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}编辑daemon.json文件"
+	  echo -e "${gl_kjlan}9.   ${gl_bai}daemon.json 파일 편집"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}开启Docker-ipv6访问"
+	  echo -e "${gl_kjlan}11.  ${gl_bai}Docker-ipv6 액세스 활성화"
 	  echo -e "${gl_kjlan}12.  ${gl_bai}Docker-ipv6 액세스 끄기"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}19.  ${gl_bai}备份/迁移/还原Docker环境"
+	  echo -e "${gl_kjlan}19.  ${gl_bai}Docker 환경 백업/마이그레이션/복원"
 	  echo -e "${gl_kjlan}20.  ${gl_bai}Docker 환경 제거"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_kjlan}0.   ${gl_bai}메인 메뉴로 돌아가기"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
-	  read -e -p "请输入你的选择: " sub_choice
+	  read -e -p "선택사항을 입력하세요:" sub_choice
 
 	  case $sub_choice in
 		  1)
 			clear
-			send_stats "安装docker环境"
+			send_stats "도커 환경 설치"
 			install_add_docker
 
 			  ;;
@@ -7463,22 +7463,22 @@ linux_docker() {
 			  local network_count=$(docker network ls -q 2>/dev/null | wc -l)
 			  local volume_count=$(docker volume ls -q 2>/dev/null | wc -l)
 
-			  send_stats "docker全局状态"
-			  echo "Docker版本"
+			  send_stats "도커 전역 상태"
+			  echo "도커 버전"
 			  docker -v
 			  docker compose version
 
 			  echo ""
-			  echo -e "Docker镜像: ${gl_lv}$image_count${gl_bai} "
+			  echo -e "도커 이미지:${gl_lv}$image_count${gl_bai} "
 			  docker image ls
 			  echo ""
-			  echo -e "Docker容器: ${gl_lv}$container_count${gl_bai}"
+			  echo -e "도커 컨테이너:${gl_lv}$container_count${gl_bai}"
 			  docker ps -a
 			  echo ""
-			  echo -e "Docker卷: ${gl_lv}$volume_count${gl_bai}"
+			  echo -e "Docker 볼륨:${gl_lv}$volume_count${gl_bai}"
 			  docker volume ls
 			  echo ""
-			  echo -e "Docker网络: ${gl_lv}$network_count${gl_bai}"
+			  echo -e "도커 네트워크:${gl_lv}$network_count${gl_bai}"
 			  docker network ls
 			  echo ""
 
@@ -7493,8 +7493,8 @@ linux_docker() {
 		  5)
 			  while true; do
 				  clear
-				  send_stats "Docker网络管理"
-				  echo "Docker网络列表"
+				  send_stats "도커 네트워크 관리"
+				  echo "도커 네트워크 목록"
 				  echo "------------------------------------------------------------"
 				  docker network ls
 				  echo ""
@@ -7520,34 +7520,34 @@ linux_docker() {
 				  echo ""
 				  echo "网络操作"
 				  echo "------------------------"
-				  echo "1. 创建网络"
-				  echo "2. 加入网络"
-				  echo "3. 退出网络"
-				  echo "4. 删除网络"
+				  echo "1. 네트워크 생성"
+				  echo "2. 네트워크에 가입하세요"
+				  echo "3. 네트워크 종료"
+				  echo "4. 네트워크 삭제"
 				  echo "------------------------"
-				  echo "0. 返回上一级选单"
+				  echo "0. 이전 메뉴로 돌아가기"
 				  echo "------------------------"
 				  read -e -p "请输入你的选择: " sub_choice
 
 				  case $sub_choice in
 					  1)
-						  send_stats "创建网络"
-						  read -e -p "设置新网络名: " dockernetwork
+						  send_stats "네트워크 생성"
+						  read -e -p "새 네트워크 이름 설정:" dockernetwork
 						  docker network create $dockernetwork
 						  ;;
 					  2)
-						  send_stats "加入网络"
-						  read -e -p "加入网络名: " dockernetwork
-						  read -e -p "那些容器加入该网络（多个容器名请用空格分隔）: " dockernames
+						  send_stats "네트워크에 가입하세요"
+						  read -e -p "네트워크 이름 추가:" dockernetwork
+						  read -e -p "네트워크에 참여하는 컨테이너(여러 컨테이너 이름을 공백으로 구분하세요):" dockernames
 
 						  for dockername in $dockernames; do
 							  docker network connect $dockernetwork $dockername
 						  done
 						  ;;
 					  3)
-						  send_stats "加入网络"
-						  read -e -p "退出网络名: " dockernetwork
-						  read -e -p "那些容器退出该网络（多个容器名请用空格分隔）: " dockernames
+						  send_stats "네트워크에 가입하세요"
+						  read -e -p "종료 네트워크 이름:" dockernetwork
+						  read -e -p "이러한 컨테이너는 네트워크를 종료합니다(여러 컨테이너 이름을 공백으로 구분하세요)." dockernames
 
 						  for dockername in $dockernames; do
 							  docker network disconnect $dockernetwork $dockername
@@ -7556,8 +7556,8 @@ linux_docker() {
 						  ;;
 
 					  4)
-						  send_stats "删除网络"
-						  read -e -p "请输入要删除的网络名: " dockernetwork
+						  send_stats "네트워크 삭제"
+						  read -e -p "삭제할 네트워크 이름을 입력하세요:" dockernetwork
 						  docker network rm $dockernetwork
 						  ;;
 
@@ -7571,29 +7571,29 @@ linux_docker() {
 		  6)
 			  while true; do
 				  clear
-				  send_stats "Docker卷管理"
-				  echo "Docker卷列表"
+				  send_stats "도커 볼륨 관리"
+				  echo "도커 볼륨 목록"
 				  docker volume ls
 				  echo ""
-				  echo "卷操作"
+				  echo "볼륨 작업"
 				  echo "------------------------"
-				  echo "1. 创建新卷"
-				  echo "2. 删除指定卷"
-				  echo "3. 删除所有卷"
+				  echo "1. 새 볼륨 생성"
+				  echo "2. 지정된 볼륨 삭제"
+				  echo "3. 모든 볼륨 삭제"
 				  echo "------------------------"
 				  echo "0. 返回上一级选单"
 				  echo "------------------------"
-				  read -e -p "请输入你的选择: " sub_choice
+				  read -e -p "선택사항을 입력하세요:" sub_choice
 
 				  case $sub_choice in
 					  1)
-						  send_stats "新建卷"
-						  read -e -p "设置新卷名: " dockerjuan
+						  send_stats "새 볼륨 생성"
+						  read -e -p "새 볼륨 이름 설정:" dockerjuan
 						  docker volume create $dockerjuan
 
 						  ;;
 					  2)
-						  read -e -p "输入删除卷名（多个卷名请用空格分隔）: " dockerjuans
+						  read -e -p "삭제 볼륨 이름을 입력하십시오(여러 볼륨 이름을 공백으로 구분하십시오):" dockerjuans
 
 						  for dockerjuan in $dockerjuans; do
 							  docker volume rm $dockerjuan
@@ -7602,7 +7602,7 @@ linux_docker() {
 						  ;;
 
 					   3)
-						  send_stats "删除所有卷"
+						  send_stats "모든 볼륨 삭제"
 						  read -e -p "$(echo -e "${gl_hong}注意: ${gl_bai}确定删除所有未使用的卷吗？(Y/N): ")" choice
 						  case "$choice" in
 							[Yy])
@@ -7611,7 +7611,7 @@ linux_docker() {
 							[Nn])
 							  ;;
 							*)
-							  echo "无效的选择，请输入 Y 或 N。"
+							  echo "선택이 잘못되었습니다. Y 또는 N을 입력하세요."
 							  ;;
 						  esac
 						  ;;
@@ -7624,7 +7624,7 @@ linux_docker() {
 			  ;;
 		  7)
 			  clear
-			  send_stats "Docker清理"
+			  send_stats "도커 정리"
 			  read -e -p "$(echo -e "${gl_huang}提示: ${gl_bai}将清理无用的镜像容器网络，包括停止的容器，确定清理吗？(Y/N): ")" choice
 			  case "$choice" in
 				[Yy])
@@ -7633,13 +7633,13 @@ linux_docker() {
 				[Nn])
 				  ;;
 				*)
-				  echo "无效的选择，请输入 Y 或 N。"
+				  echo "선택이 잘못되었습니다. Y 또는 N을 입력하세요."
 				  ;;
 			  esac
 			  ;;
 		  8)
 			  clear
-			  send_stats "Docker源"
+			  send_stats "도커 소스"
 			  bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
 			  ;;
 
@@ -7655,13 +7655,13 @@ linux_docker() {
 
 		  11)
 			  clear
-			  send_stats "Docker v6 开"
+			  send_stats "도커 v6 켜짐"
 			  docker_ipv6_on
 			  ;;
 
 		  12)
 			  clear
-			  send_stats "Docker v6 关"
+			  send_stats "도커 v6 닫기"
 			  docker_ipv6_off
 			  ;;
 
@@ -7672,7 +7672,7 @@ linux_docker() {
 
 		  20)
 			  clear
-			  send_stats "Docker卸载"
+			  send_stats "도커 제거"
 			  read -e -p "$(echo -e "${gl_hong}注意: ${gl_bai}确定卸载docker环境吗？(Y/N): ")" choice
 			  case "$choice" in
 				[Yy])
@@ -7684,7 +7684,7 @@ linux_docker() {
 				[Nn])
 				  ;;
 				*)
-				  echo "无效的选择，请输入 Y 或 N。"
+				  echo "선택이 잘못되었습니다. Y 또는 N을 입력하세요."
 				  ;;
 			  esac
 			  ;;
@@ -7710,38 +7710,38 @@ linux_test() {
 
 	while true; do
 	  clear
-	  # send_stats "测试脚本合集"
-	  echo -e "测试脚本合集"
+	  # send_stats "테스트 스크립트 수집"
+	  echo -e "테스트 스크립트 수집"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}IP及解锁状态检测"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}ChatGPT 解锁状态检测"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}Region 流媒体解锁测试"
+	  echo -e "${gl_kjlan}IP 및 잠금 해제 상태 감지"
+	  echo -e "${gl_kjlan}1.   ${gl_bai}ChatGPT 잠금 해제 상태 감지"
+	  echo -e "${gl_kjlan}2.   ${gl_bai}지역 스트리밍 미디어 잠금 해제 테스트"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}yeahwu 流媒体解锁检测"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}xykt IP质量体检脚本 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}4.   ${gl_bai}xykt IP 품질 확인 스크립트${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}网络线路测速"
-	  echo -e "${gl_kjlan}11.  ${gl_bai}besttrace 三网回程延迟路由测试"
-	  echo -e "${gl_kjlan}12.  ${gl_bai}mtr_trace 三网回程线路测试"
-	  echo -e "${gl_kjlan}13.  ${gl_bai}Superspeed 三网测速"
+	  echo -e "${gl_kjlan}네트워크 회선 속도 테스트"
+	  echo -e "${gl_kjlan}11.  ${gl_bai}besttrace 3 네트워크 백홀 지연 라우팅 테스트"
+	  echo -e "${gl_kjlan}12.  ${gl_bai}mtr_trace 삼중 네트워크 백홀 회선 테스트"
+	  echo -e "${gl_kjlan}13.  ${gl_bai}초고속 트리플 네트워크 속도 테스트"
 	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace 快速回程测试脚本"
-	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace 指定IP回程测试脚本"
-	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 三网线路测试"
+	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace는 IP 백홀 테스트 스크립트를 지정합니다."
+	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 세 개의 네트워크 라인 테스트"
 	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc 多功能测速脚本"
-	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality 网络质量体检脚本 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality 네트워크 품질 확인 스크립트${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}硬件性能测试"
-	  echo -e "${gl_kjlan}21.  ${gl_bai}yabs 性能测试"
-	  echo -e "${gl_kjlan}22.  ${gl_bai}icu/gb5 CPU性能测试脚本"
+	  echo -e "${gl_kjlan}하드웨어 성능 테스트"
+	  echo -e "${gl_kjlan}21.  ${gl_bai}Yabs 성능 테스트"
+	  echo -e "${gl_kjlan}22.  ${gl_bai}icu/gb5 CPU 성능 테스트 스크립트"
 
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}综合性测试"
 	  echo -e "${gl_kjlan}31.  ${gl_bai}bench 性能测试"
-	  echo -e "${gl_kjlan}32.  ${gl_bai}spiritysdx 融合怪测评 ${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}32.  ${gl_bai}spiritysdx 퓨전 몬스터 평가${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}33.  ${gl_bai}nodequality 融合怪测评 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
+	  echo -e "${gl_kjlan}0.   ${gl_bai}메인 메뉴로 돌아가기"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
@@ -7758,7 +7758,7 @@ linux_test() {
 			  ;;
 		  3)
 			  clear
-			  send_stats "yeahwu流媒体解锁检测"
+			  send_stats "예우 스트리밍 미디어 잠금 해제 감지"
 			  install wget
 			  wget -qO- ${gh_proxy}github.com/yeahwu/check/raw/main/check.sh | bash
 			  ;;
@@ -7771,13 +7771,13 @@ linux_test() {
 
 		  11)
 			  clear
-			  send_stats "besttrace三网回程延迟路由测试"
+			  send_stats "besttrace 삼중 네트워크 백홀 지연 라우팅 테스트"
 			  install wget
 			  wget -qO- git.io/besttrace | bash
 			  ;;
 		  12)
 			  clear
-			  send_stats "mtr_trace三网回程线路测试"
+			  send_stats "mtr_trace 삼중 네트워크 백홀 회선 테스트"
 			  curl ${gh_proxy}raw.githubusercontent.com/zhucaidan/mtr_trace/main/mtr_trace.sh | bash
 			  ;;
 		  13)
@@ -7794,33 +7794,33 @@ linux_test() {
 		  15)
 			  clear
 			  send_stats "nxtrace指定IP回程测试脚本"
-			  echo "可参考的IP列表"
+			  echo "참조 IP 목록"
 			  echo "------------------------"
-			  echo "北京电信: 219.141.136.12"
-			  echo "北京联通: 202.106.50.1"
-			  echo "北京移动: 221.179.155.161"
-			  echo "上海电信: 202.96.209.133"
-			  echo "上海联通: 210.22.97.1"
-			  echo "上海移动: 211.136.112.200"
-			  echo "广州电信: 58.60.188.222"
+			  echo "베이징 통신: 219.141.136.12"
+			  echo "베이징 유니콤: 202.106.50.1"
+			  echo "베이징 모바일: 221.179.155.161"
+			  echo "상하이 통신: 202.96.209.133"
+			  echo "상하이 유니콤: 210.22.97.1"
+			  echo "상하이 모바일: 211.136.112.200"
+			  echo "광저우 통신: 58.60.188.222"
 			  echo "广州联通: 210.21.196.6"
 			  echo "广州移动: 120.196.165.24"
 			  echo "成都电信: 61.139.2.69"
 			  echo "成都联通: 119.6.6.6"
-			  echo "成都移动: 211.137.96.205"
+			  echo "청두 모바일: 211.137.96.205"
 			  echo "湖南电信: 36.111.200.100"
 			  echo "湖南联通: 42.48.16.100"
 			  echo "湖南移动: 39.134.254.6"
 			  echo "------------------------"
 
-			  read -e -p "输入一个指定IP: " testip
+			  read -e -p "특정 IP를 입력하세요:" testip
 			  curl nxtrace.org/nt |bash
 			  nexttrace $testip
 			  ;;
 
 		  16)
 			  clear
-			  send_stats "ludashi2020三网线路测试"
+			  send_stats "ludashi2020 세 개의 네트워크 라인 테스트"
 			  curl ${gh_proxy}raw.githubusercontent.com/ludashi2020/backtrace/main/install.sh -sSf | sh
 			  ;;
 
@@ -7838,7 +7838,7 @@ linux_test() {
 
 		  21)
 			  clear
-			  send_stats "yabs性能测试"
+			  send_stats "Yabs 성능 테스트"
 			  check_swap
 			  curl -sL yabs.sh | bash -s -- -i -5
 			  ;;
@@ -7851,7 +7851,7 @@ linux_test() {
 
 		  31)
 			  clear
-			  send_stats "bench性能测试"
+			  send_stats "벤치 성능 테스트"
 			  curl -Lso- bench.sh | bash
 			  ;;
 		  32)
@@ -7861,7 +7861,7 @@ linux_test() {
 			  ;;
 
 		  33)
-			  send_stats "nodequality融合怪测评"
+			  send_stats "Nodequality 융합 몬스터 평가"
 			  clear
 			  bash <(curl -sL https://run.NodeQuality.com)
 			  ;;
@@ -7873,7 +7873,7 @@ linux_test() {
 
 			  ;;
 		  *)
-			  echo "无效的输入!"
+			  echo "입력이 잘못되었습니다!"
 			  ;;
 	  esac
 	  break_end
@@ -7890,15 +7890,15 @@ linux_Oracle() {
 	 while true; do
 	  clear
 	  send_stats "甲骨文云脚本合集"
-	  echo -e "甲骨文云脚本合集"
+	  echo -e "Oracle Cloud 스크립트 컬렉션"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}1.   ${gl_bai}安装闲置机器活跃脚本"
+	  echo -e "${gl_kjlan}1.   ${gl_bai}유휴 머신 활성 스크립트 설치"
 	  echo -e "${gl_kjlan}2.   ${gl_bai}卸载闲置机器活跃脚本"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}DD重装系统脚本"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}R探长开机脚本"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}开启ROOT密码登录模式"
-	  echo -e "${gl_kjlan}6.   ${gl_bai}IPV6恢复工具"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}ROOT 비밀번호 로그인 모드 활성화"
+	  echo -e "${gl_kjlan}6.   ${gl_bai}IPV6 복구 도구"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -7924,7 +7924,7 @@ linux_Oracle() {
 				  read -e -p "请输入CPU核心数 [默认: $DEFAULT_CPU_CORE]: " cpu_core
 				  local cpu_core=${cpu_core:-$DEFAULT_CPU_CORE}
 
-				  read -e -p "请输入CPU占用百分比范围（例如10-20） [默认: $DEFAULT_CPU_UTIL]: " cpu_util
+				  read -e -p "CPU 사용량 백분율 범위(예: 10-20)를 입력하십시오. [기본값:$DEFAULT_CPU_UTIL]: " cpu_util
 				  local cpu_util=${cpu_util:-$DEFAULT_CPU_UTIL}
 
 				  read -e -p "请输入内存占用百分比 [默认: $DEFAULT_MEM_UTIL]: " mem_util
@@ -7964,12 +7964,12 @@ linux_Oracle() {
 		  echo "重装系统"
 		  echo "--------------------------------"
 		  echo -e "${gl_hong}注意: ${gl_bai}重装有风险失联，不放心者慎用。重装预计花费15分钟，请提前备份数据。"
-		  read -e -p "确定继续吗？(Y/N): " choice
+		  read -e -p "계속하시겠습니까? (예/아니요):" choice
 
 		  case "$choice" in
 			[Yy])
 			  while true; do
-				read -e -p "请选择要重装的系统:  1. Debian12 | 2. Ubuntu20.04 : " sys_choice
+				read -e -p "다시 설치하려는 시스템을 선택하십시오: 1. Debian12 | 2. 우분투20.04:" sys_choice
 
 				case "$sys_choice" in
 				  1)
@@ -8002,7 +8002,7 @@ linux_Oracle() {
 
 		  4)
 			  clear
-			  send_stats "R探长开机脚本"
+			  send_stats "R 형사 시작 스크립트"
 			  bash <(wget -qO- ${gh_proxy}github.com/Yohann0617/oci-helper/releases/latest/download/sh_oci-helper_install.sh)
 			  ;;
 		  5)
@@ -8021,7 +8021,7 @@ linux_Oracle() {
 
 			  ;;
 		  *)
-			  echo "无效的输入!"
+			  echo "입력이 잘못되었습니다!"
 			  ;;
 	  esac
 	  break_end
